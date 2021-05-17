@@ -1,7 +1,7 @@
-import { useRef } from 'react';
+import { useRef } from "react";
 
-import Button from '../ui/button';
-import classes from './events-search.module.css';
+import Button from "../../ui/button";
+import classes from "./events-search.module.css";
 
 function EventsSearch(props) {
   const yearInputRef = useRef();
@@ -13,7 +13,7 @@ function EventsSearch(props) {
     const selectedYear = yearInputRef.current.value;
     const selectedMonth = monthInputRef.current.value;
 
-    props.onSearch(selectedYear, selectedMonth);    
+    props.onSearch(selectedYear, selectedMonth);
   }
 
   return (
