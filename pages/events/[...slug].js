@@ -27,7 +27,7 @@ function FilteredEventsPage() {
     isNaN(numMonth) ||
     numYear > 2030 ||
     numYear < 2021 ||
-    numMonth < 1 ||
+    numMonth < 0 ||
     numMonth > 12
   ) {
     return (
@@ -59,12 +59,11 @@ function FilteredEventsPage() {
       </Fragment>
     );
   }
-
-  const date = new Date(numYear, numMonth - 1);
+  const date = new Date(numYear, numMonth - (numMonth != 0));
 
   return (
     <Fragment>
-      <ResultsTitle date={date} />
+      <ResultsTitle date={date} isFullYear={numMonth == 0} />
       <EventList items={filteredEvents} />
     </Fragment>
   );
