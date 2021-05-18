@@ -7,8 +7,14 @@ function Python() {
   useEffect(() => {
     axios
       .get("/api/date")
-      .then((res) => res.json())
-      .then((data) => setDateToday(data));
+      .then((res) => {
+        console.log(res);
+        res.json();
+      })
+      .then((data) => {
+        console.log(data);
+        setDateToday(data);
+      });
   }, [dateToday]);
 
   return (
