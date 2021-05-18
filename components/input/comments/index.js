@@ -7,6 +7,7 @@ import classes from "./styles.module.css";
 
 function Comments(props) {
   const { eventId } = props;
+  console.log(eventId);
   const [showComments, setShowComments] = useState(false);
   const [comments, setComments] = useState([]);
   const notificationCtx = useContext(NotificationContext);
@@ -15,7 +16,6 @@ function Comments(props) {
   useEffect(() => {
     if (showComments) {
       setIsLoading(true);
-
       fetch("/api/comments/" + eventId)
         .then((res) => res.json())
         .then((data) => {
@@ -46,7 +46,8 @@ function Comments(props) {
     })
       .then((res) => {
         if (res.ok) return res.json();
-        res.json().then((data) => {
+
+        return res.json().then((data) => {
           throw new Error(data.message || "Something went wrong");
         });
       })

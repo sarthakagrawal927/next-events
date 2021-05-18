@@ -12,6 +12,7 @@ export async function connectDatabase() {
 export async function insertDoc(client, collection, document) {
   const db = client.db("events");
   const result = await db.collection(collection).insertOne(document);
+  return result;
 }
 
 export async function getDoc(client, collection, sort, filter) {

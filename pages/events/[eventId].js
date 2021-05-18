@@ -1,11 +1,7 @@
 import { Fragment } from "react";
 import { useRouter } from "next/router";
 import Layout from "../../components/layout";
-import {
-  getEventById,
-  getAllEvents,
-  getFeaturedEvents,
-} from "../../helpers/api-util";
+import { getEventById, getFeaturedEvents } from "../../helpers/api-util";
 
 import EventSummary from "../../components/event-detail/event-summary";
 import EventLogistics from "../../components/event-detail/event-logistics";
@@ -14,6 +10,7 @@ import ErrorAlert from "../../components/ui/error-alert";
 import Comments from "../../components/input/comments";
 
 function EventDetailPage({ event }) {
+  console.log(event.id);
   if (!event) {
     return (
       <Layout title='loading..'>
@@ -37,13 +34,13 @@ function EventDetailPage({ event }) {
       <EventContent>
         <p>{event.description}</p>
       </EventContent>
-      <Comments />
+      <Comments eventId={event.id} />
     </Layout>
   );
 }
 
 export async function getStaticPaths(context) {
-  const events = await getAllEvents();
+  const events = await getFeaturedEvents();
   const paths = events.map((event) => ({ params: { eventId: event.id } }));
   return {
     paths: paths,
@@ -53,7 +50,9 @@ export async function getStaticPaths(context) {
 
 export async function getStaticProps(context) {
   const eventId = context.params.eventId;
+  console.log(eventId);
   const event = await getEventById(eventId);
+  console.log(event);
   return {
     props: {
       event,
