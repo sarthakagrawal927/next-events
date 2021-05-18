@@ -16,6 +16,7 @@ function FilteredEventsPage() {
   const { data, error } = useSWR(
     "https://events-5d54c-default-rtdb.firebaseio.com/events.json",
   );
+
   const [events, setEvents] = useState();
   useEffect(() => {
     if (data) {
