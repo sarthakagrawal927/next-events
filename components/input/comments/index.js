@@ -1,4 +1,5 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
+import NotificationContext from "../../../store/notifcation-context";
 
 import CommentList from "../comment-list";
 import NewComment from "../new-comment";
@@ -8,12 +9,19 @@ function Comments(props) {
   const { eventId } = props;
   const [showComments, setShowComments] = useState(false);
   const [comments, setComments] = useState([]);
+  const notificationCtx = useContext(NotificationContext);
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     if (showComments) {
+      setIsLoading(true);
+
       fetch("/api/comments/" + eventId)
         .then((res) => res.json())
-        .then((data) => setComments(data.comments));
+        .then((data) => {
+          setComments(data.comments);
+          setIsLoading(false);
+        });
     }
   }, [showComments]);
 
@@ -22,15 +30,40 @@ function Comments(props) {
   }
 
   function addCommentHandler(commentData) {
+    notificationCtx.showNotification({
+      title: "Sending comment",
+      message: "Your comment is being published",
+      status: "pending",
+    });
+
     fetch("/api/comments/" + eventId, {
       method: "POST",
       body: JSON.stringify(commentData),
       headers: {
         "Content-Type": "application/json",
+        Accept: "application/json",
       },
     })
-      .then((res) => res.json())
-      .then((data) => console.log(data));
+      .then((res) => {
+        if (res.ok) return res.json();
+        res.json().then((data) => {
+          throw new Error(data.message || "Something went wrong");
+        });
+      })
+      .then((data) => {
+        notificationCtx.showNotification({
+          title: "Success",
+          message: "Successful",
+          status: "success",
+        });
+      })
+      .catch((error) => {
+        notificationCtx.showNotification({
+          title: "error",
+          message: error.message || "Something went wrong",
+          status: "error",
+        });
+      });
   }
 
   return (
@@ -39,7 +72,8 @@ function Comments(props) {
         {showComments ? "Hide" : "Show"} Comments
       </button>
       {showComments && <NewComment onAddComment={addCommentHandler} />}
-      {showComments && <CommentList items={comments} />}
+      {showComments && !isLoading && <CommentList items={comments} />}
+      {showComments && isLoading && <p>Loading..</p>}
     </section>
   );
 }
