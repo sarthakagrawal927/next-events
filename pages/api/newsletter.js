@@ -1,4 +1,4 @@
-import { MongoClient } from "mongodb";
+import { connectDatabase, insertDoc } from "../../helpers/db-util";
 
 async function handler(req, res) {
   if (req.method === "POST") {
@@ -9,15 +9,22 @@ async function handler(req, res) {
       return;
     }
 
-    const client = new MongoClient(process.env.MONGOURI, {
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
-    });
-    await client.connect();
-    const db = client.db("events");
-    const result = await db.collection("emails").insertOne({ email: email });
+    let client;
+    try {
+      client = await connectDatabase();
+    } catch (e) {
+      console.log(e.message);
+      res.status(500).json({ message: "DB connection Failed" });
+      return;
+    }
+    try {
+      await insertDoc(client, "email", { email: email });
+      res.status(201).json({ message: "Valid" });
 
-    res.status(201).json({ message: "Valid" });
+      client.close();
+    } catch (e) {
+      res.status(500).json({ message: "Couldnt insert" });
+    }
   }
 }
 
