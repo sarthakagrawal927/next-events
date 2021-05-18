@@ -1,11 +1,12 @@
 import { Fragment } from "react";
 import { useRouter } from "next/router";
-
+import Layout from "../../components/layout";
 import {
   getEventById,
   getAllEvents,
   getFeaturedEvents,
 } from "../../helpers/api-util";
+
 import EventSummary from "../../components/event-detail/event-summary";
 import EventLogistics from "../../components/event-detail/event-logistics";
 import EventContent from "../../components/event-detail/event-content";
@@ -14,14 +15,17 @@ import ErrorAlert from "../../components/ui/error-alert";
 function EventDetailPage({ event }) {
   if (!event) {
     return (
-      <div className='center'>
-        <p>Loading...</p>
-      </div>
+      <Layout title='loading..'>
+        {" "}
+        <div className='center'>
+          <p>Loading...</p>
+        </div>
+      </Layout>
     );
   }
 
   return (
-    <Fragment>
+    <Layout title={event.title}>
       <EventSummary title={event.title} />
       <EventLogistics
         date={event.date}
@@ -32,7 +36,7 @@ function EventDetailPage({ event }) {
       <EventContent>
         <p>{event.description}</p>
       </EventContent>
-    </Fragment>
+    </Layout>
   );
 }
 

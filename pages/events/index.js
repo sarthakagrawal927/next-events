@@ -1,5 +1,6 @@
 import { Fragment } from "react";
 import { useRouter } from "next/router";
+import Layout from "../../components/layout";
 import { getAllEvents } from "../../helpers/api-util";
 import EventList from "../../components/events/event-list";
 import EventsSearch from "../../components/events/events-search";
@@ -13,10 +14,10 @@ function AllEventsPage({ events }) {
   }
 
   return (
-    <Fragment>
+    <Layout title='Events powered by NextJS'>
       <EventsSearch onSearch={findEventsHandler} />
       <EventList items={events} />
-    </Fragment>
+    </Layout>
   );
 }
 
