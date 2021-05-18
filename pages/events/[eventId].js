@@ -43,7 +43,7 @@ function EventDetailPage({ event }) {
 }
 
 export async function getStaticPaths(context) {
-  const events = await getFeaturedEvents();
+  const events = await getAllEvents();
   const paths = events.map((event) => ({ params: { eventId: event.id } }));
   return {
     paths: paths,
