@@ -1,21 +1,19 @@
 import classes from "./styles.module.css";
 
-function CommentList() {
+function CommentList({ items }) {
   return (
     <ul className={classes.comments}>
-      {/* Render list of comments - fetched from API */}
-      <li>
-        <p>My comment is amazing!</p>
-        <div>
-          By <address>Maximilian</address>
-        </div>
-      </li>
-      <li>
-        <p>My comment is amazing!</p>
-        <div>
-          By <address>Maximilian</address>
-        </div>
-      </li>
+      {items.map(({ text, name }, index) => {
+        return (
+          <li key={index}>
+            {" "}
+            <p>{text}</p>
+            <div>
+              By <address>{name}</address>
+            </div>
+          </li>
+        );
+      })}
     </ul>
   );
 }
