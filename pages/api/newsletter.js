@@ -1,4 +1,6 @@
-const handler = (req, res) => {
+import { MongoClient } from "mongodb";
+
+async function handler(req, res) {
   if (req.method === "POST") {
     const { email } = req.body;
 
@@ -7,9 +9,16 @@ const handler = (req, res) => {
       return;
     }
 
-    console.log(email);
+    const client = new MongoClient(process.env.MONGOURI, {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+    });
+    await client.connect();
+    const db = client.db("events");
+    const result = await db.collection("emails").insertOne({ email: email });
+
     res.status(201).json({ message: "Valid" });
   }
-};
+}
 
 export default handler;
