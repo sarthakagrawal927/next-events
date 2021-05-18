@@ -17,6 +17,10 @@ export async function insertDoc(client, collection, document) {
 
 export async function getDoc(client, collection, sort, filter) {
   const db = client.db("events");
-  const documents = await db.collection(collection).find().sort(sort).toArray();
+  const documents = await db
+    .collection(collection)
+    .find(filter)
+    .sort(sort)
+    .toArray();
   return documents;
 }

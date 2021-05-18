@@ -10,7 +10,6 @@ import ErrorAlert from "../../components/ui/error-alert";
 import Comments from "../../components/input/comments";
 
 function EventDetailPage({ event }) {
-  console.log(event.id);
   if (!event) {
     return (
       <Layout title='loading..'>
@@ -50,9 +49,7 @@ export async function getStaticPaths(context) {
 
 export async function getStaticProps(context) {
   const eventId = context.params.eventId;
-  console.log(eventId);
   const event = await getEventById(eventId);
-  console.log(event);
   return {
     props: {
       event,

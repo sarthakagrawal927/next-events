@@ -7,7 +7,6 @@ import classes from "./styles.module.css";
 
 function Comments(props) {
   const { eventId } = props;
-  console.log(eventId);
   const [showComments, setShowComments] = useState(false);
   const [comments, setComments] = useState([]);
   const notificationCtx = useContext(NotificationContext);
@@ -30,6 +29,8 @@ function Comments(props) {
   }
 
   function addCommentHandler(commentData) {
+    setShowComments(false);
+
     notificationCtx.showNotification({
       title: "Sending comment",
       message: "Your comment is being published",
@@ -57,6 +58,7 @@ function Comments(props) {
           message: "Successful",
           status: "success",
         });
+        setShowComments(true);
       })
       .catch((error) => {
         notificationCtx.showNotification({
@@ -72,7 +74,7 @@ function Comments(props) {
       <button onClick={toggleCommentsHandler}>
         {showComments ? "Hide" : "Show"} Comments
       </button>
-      {showComments && <NewComment onAddComment={addCommentHandler} />}
+      {<NewComment onAddComment={addCommentHandler} />}
       {showComments && !isLoading && <CommentList items={comments} />}
       {showComments && isLoading && <p>Loading..</p>}
     </section>
