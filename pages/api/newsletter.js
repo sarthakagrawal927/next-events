@@ -20,11 +20,10 @@ async function handler(req, res) {
     try {
       await insertDoc(client, "email", { email: email });
       res.status(201).json({ message: "Valid" });
-
-      client.close();
     } catch (e) {
       res.status(500).json({ message: "Couldnt insert" });
     }
+    client.close();
   }
 }
 

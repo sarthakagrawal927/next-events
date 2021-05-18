@@ -4,7 +4,12 @@ import { useEffect, useState } from "react";
 function Python() {
   const [dateToday, setDateToday] = useState();
   useEffect(() => {
-    fetch("/api/date")
+    fetch("/api/date/", {
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+      },
+    })
       .then((res) => res.json())
       .then((data) => setDateToday(data));
   }, [dateToday]);

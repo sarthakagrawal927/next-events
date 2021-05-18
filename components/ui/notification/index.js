@@ -1,7 +1,7 @@
 import { useContext } from "react";
 
 import classes from "./styles.module.css";
-import NotificationContext from "../../store/notification-context";
+import NotificationContext from "../../../store/notifcation-context";
 
 function Notification(props) {
   const notificationCtx = useContext(NotificationContext);
