@@ -1,6 +1,7 @@
 lockfileVersion: 5.3
 
 specifiers:
+  axios: ^0.21.1
   mongodb: ^3.6.6
   next: 10.0.6
   react: 17.0.1
@@ -8,6 +9,7 @@ specifiers:
   swr: ^0.5.6
 
 dependencies:
+  axios: 0.21.1
   mongodb: 3.6.6
   next: 10.0.6_react-dom@17.0.1+react@17.0.1
   react: 17.0.1
@@ -265,6 +267,14 @@ packages:
   /ast-types/0.13.2:
     resolution: {integrity: sha512-uWMHxJxtfj/1oZClOxDEV1sQ1HCDkA4MG8Gr69KKeBjEVH0R84WlejZ0y2DcwyBlpAEMltmVYkVgqfLFb2oyiA==}
     engines: {node: '>=4'}
+    dev: false
+
+  /axios/0.21.1:
+    resolution: {integrity: sha512-dKQiRHxGD9PPRIUNIWvZhPTPpl1rf/OxTYKsqKUDjBwYylTvV7SjSHJb9ratfyzM6wCdLCOYLzs73qpg5c4iGA==}
+    dependencies:
+      follow-redirects: 1.14.1
+    transitivePeerDependencies:
+      - debug
     dev: false
 
   /babel-plugin-syntax-jsx/6.18.0:
@@ -845,6 +855,16 @@ packages:
     dependencies:
       locate-path: 5.0.0
       path-exists: 4.0.0
+    dev: false
+
+  /follow-redirects/1.14.1:
+    resolution: {integrity: sha512-HWqDgT7ZEkqRzBvc2s64vSZ/hfOceEol3ac/7tKwzuvEyWx3/4UegXh5oBOIotkGsObyk3xznnSRVADBgWSQVg==}
+    engines: {node: '>=4.0'}
+    peerDependencies:
+      debug: '*'
+    peerDependenciesMeta:
+      debug:
+        optional: true
     dev: false
 
   /fs-constants/1.0.0:
