@@ -1,5 +1,6 @@
 import { useState, useEffect, useContext } from "react";
 import NotificationContext from "../../../store/notifcation-context";
+import axios from "axios";
 
 import CommentList from "../comment-list";
 import NewComment from "../new-comment";
@@ -15,25 +16,25 @@ function Comments(props) {
   useEffect(() => {
     if (showComments) {
       setIsLoading(true);
-      fetch("/api/comments/" + eventId + "/", {
-        headers: {
-          Accept: "application/json",
-        },
-      })
-        .then((res) => {
-          console.log(res);
-
-          if (res.ok) {
-            return res.json();
-          }
-
-          return res.json().then((data) => {
-            throw new Error(data.message || "Something went wrong");
-          });
+      notificationCtx.showNotification({
+        title: "Fetching comments",
+        message: "",
+        status: "pending",
+      });
+      axios
+        .get("/api/comments/" + eventId + "/", {
+          headers: {
+            Accept: "application/json",
+          },
         })
-        .then((data) => {
-          console.log(data.comments);
-          setComments(data.comments);
+        .then((res) => {
+          console.log(res.data.comments);
+          setComments(res.data.comments);
+          notificationCtx.showNotification({
+            title: "Success",
+            message: "Comments now visible",
+            status: "success",
+          });
           setIsLoading(false);
         })
         .catch((e) => {
