@@ -52,8 +52,6 @@ async function handler(req, res) {
         { _id: -1 }, //sort
         { eventId: eventId }, //filter
       );
-      console.log(JSON.stringify(documents));
-
       res.status(200).json({ comments: documents });
     } catch (error) {
       res.status(500).json({ message: "Getting comments failed." });

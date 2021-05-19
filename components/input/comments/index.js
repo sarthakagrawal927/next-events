@@ -22,13 +22,8 @@ function Comments(props) {
         status: "pending",
       });
       axios
-        .get("/api/comments/" + eventId + "/", {
-          headers: {
-            Accept: "application/json",
-          },
-        })
+        .get("/api/comments/" + eventId)
         .then((res) => {
-          console.log(res.data.comments);
           setComments(res.data.comments);
           notificationCtx.showNotification({
             title: "Success",
@@ -60,23 +55,13 @@ function Comments(props) {
       status: "pending",
     });
 
-    fetch("/api/comments/" + eventId + "/", {
-      method: "POST",
-      body: JSON.stringify(commentData),
-      headers: {
-        "Content-Type": "application/json",
-      },
-    })
-      .then((res) => {
-        console.log(res);
-        if (res.ok) return res.json();
-
-        return res.json().then((data) => {
-          throw new Error(data.message || "Something went wrong");
-        });
+    axios
+      .post("/api/comments/" + eventId, JSON.stringify(commentData), {
+        headers: {
+          "Content-Type": "application/json",
+        },
       })
-      .then((data) => {
-        console.log(data);
+      .then((res) => {
         notificationCtx.showNotification({
           title: "Success",
           message: "Successful",
