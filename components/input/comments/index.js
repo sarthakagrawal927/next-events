@@ -17,14 +17,31 @@ function Comments(props) {
       setIsLoading(true);
       fetch("/api/comments/" + eventId + "/", {
         headers: {
-          "Content-Type": "application/json",
           Accept: "application/json",
         },
       })
-        .then((res) => res.json())
+        .then((res) => {
+          console.log(res);
+
+          if (res.ok) {
+            return res.json();
+          }
+
+          return res.json().then((data) => {
+            throw new Error(data.message || "Something went wrong");
+          });
+        })
         .then((data) => {
+          console.log(data.comments);
           setComments(data.comments);
           setIsLoading(false);
+        })
+        .catch((e) => {
+          notificationCtx.showNotification({
+            title: "error",
+            message: e.message || "Something went wrong",
+            status: "error",
+          });
         });
     }
   }, [showComments]);
@@ -47,10 +64,10 @@ function Comments(props) {
       body: JSON.stringify(commentData),
       headers: {
         "Content-Type": "application/json",
-        Accept: "application/json",
       },
     })
       .then((res) => {
+        console.log(res);
         if (res.ok) return res.json();
 
         return res.json().then((data) => {
@@ -58,6 +75,7 @@ function Comments(props) {
         });
       })
       .then((data) => {
+        console.log(data);
         notificationCtx.showNotification({
           title: "Success",
           message: "Successful",
