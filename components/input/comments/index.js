@@ -15,7 +15,12 @@ function Comments(props) {
   useEffect(() => {
     if (showComments) {
       setIsLoading(true);
-      fetch("/api/comments/" + eventId)
+      fetch("/api/comments/" + eventId + "/", {
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+      })
         .then((res) => res.json())
         .then((data) => {
           setComments(data.comments);
@@ -37,7 +42,7 @@ function Comments(props) {
       status: "pending",
     });
 
-    fetch("/api/comments/" + eventId, {
+    fetch("/api/comments/" + eventId + "/", {
       method: "POST",
       body: JSON.stringify(commentData),
       headers: {

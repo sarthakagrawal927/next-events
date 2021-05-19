@@ -4,13 +4,13 @@ import classes from "./styles.module.css";
 
 function NewsletterRegistration() {
   const emailInputRef = useRef();
-  const notificatioCtx = useContext(NotificationContext);
+  const notificationCtx = useContext(NotificationContext);
   function registrationHandler(event) {
     event.preventDefault();
 
-    notificatioCtx.showNotification({
+    notificationCtx.showNotification({
       title: "Signing up",
-      message: "Registerting for newsletter",
+      message: "Registering for newsletter",
       status: "pending",
     });
 
@@ -29,14 +29,14 @@ function NewsletterRegistration() {
         });
       })
       .then((data) => {
-        notificatioCtx.showNotification({
+        notificationCtx.showNotification({
           title: "Success",
           message: "Successful",
           status: "success",
         });
       })
       .catch((error) => {
-        notificatioCtx.showNotification({
+        notificationCtx.showNotification({
           title: "error",
           message: error.message || "Something went wrong",
           status: "error",
